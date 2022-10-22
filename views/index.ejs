@@ -1,0 +1,60 @@
+<html  ng-app="app.todos" >
+    <head>
+        <title>Node/Angular To Dos</title>
+
+        <!-- load cdn style -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css">
+      
+
+        <!--load app style-->
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <!--load cdn scripts-->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-xeditable/0.10.2/js/xeditable.min.js"></script>
+        <script src="//kit.fontawesome.com/4d9e682558.js"></script> <!--load fontawesome-->
+
+        <!--load app -->
+        <script src="assets/js/main/app.js"></script>
+        <script src="assets/js/main/services/svTodos.js"></script>
+
+    </head>
+        
+    <body ng-controller="todoController">
+        <div class="mt-4 p-5 bg-secondary text-white rounded text-center">
+            <h1> {{ appName }} <span class="badge bg-primary">{{todos.length}}</span></h1>
+
+        </div>
+        <div class ="container ">
+
+            <div id="todo-list" class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <!--ng-repeat lay lap lai danh sach, strike gach ngang theo checkbox, ng-modol lay dieu kien tick checkbox-->
+                    <div class="checkbox" ng-repeat="todo in todos" >
+                        <input type="checkbox" ng-model="todo.isDone" ng-change="updateTodo(todo)">
+                        <a href ng-click="deleteTodo(todo)"><i class="fa fa-remove" style="color: red;" ></i></a>
+                        <a href ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible"><i class="fa fa-edit" ></i></a>
+                        <span ng-class="{strike: todo.isDone}" editable-text="todo.text" e-form="textBtnForm" onaftersave="updateTodo(todo)">{{todo.text}}</span>
+                    </div>
+                </div> 
+                <p class="text-center" ng-show="loading">
+                    <span class="fa fa-spinner fa-spin fa-3x"></span>
+                </p>
+            </div>
+    
+            <div id="todo-form" class="row">
+                <div class="col-sm-12 col-sm-offset-2 text-center">
+                    <form>
+                        <div class="form-group">
+                            <!--form-control dien form, -->
+                            <input type="text" ng-model="formData.text" class="form-control input-lg text-center" placeholder="What do you want to do?">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg" ng-disabled="!formData.text" ng-click="createTodo()">Add</button>
+                    </form>
+                </div>
+             
+            </div>
+        </div>
+    </body>
+</html>
